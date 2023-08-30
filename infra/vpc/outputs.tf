@@ -4,7 +4,7 @@ output "vpc_name" {
 }
 
 output "subnet_names" {
-  value       = module.vpc.subnets
+  value       = module.vpc.subnets_names
   description = "The names of the created subnets"
 }
 
