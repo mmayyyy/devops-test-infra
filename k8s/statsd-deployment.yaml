@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statsd-deployment
+  namespace: devops-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statsd
+  template:
+    metadata:
+      labels:
+        app: statsd
+    spec:
+      containers:
+        - name: statsd
+          image: graphiteapp/graphite-statsd:1.1.10-5
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi

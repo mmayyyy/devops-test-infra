@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp-deployment
+  namespace: devops-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      containers:
+        - name: nodeapp
+          image: asia-southeast1-docker.pkg.dev/service-project-b-343709/node-app-repository/devops-node-app:1.1.0
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+          env:
+            - name: STATSD_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapp-config
+                  key: STATSD_HOST
+            - name: STATSD_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapp-config
+                  key: STATSD_PORT
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: nodeapp-config
+                  key: ENVIRONMENT
